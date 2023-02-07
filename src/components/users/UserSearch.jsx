@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import GithubContext from "../../context/github/GithubContext";
+import AlertContext from "../../context/alert/AlertContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
   const { users, searchUsers, handleClear } = useContext(GithubContext);
+  const { setAlert } = useContext(AlertContext);
 
   const handleChange = (e) => setText(e.target.value);
 
@@ -11,7 +13,7 @@ function UserSearch() {
     e.preventDefault();
 
     if (text === "") {
-      alert("Please enter something");
+      setAlert("Please enter something", "error");
     } else {
       searchUsers(text);
 
@@ -21,9 +23,9 @@ function UserSearch() {
 
   return (
     <div
-      className={`grid transition-all ${
+      className={`grid ${
         users.length > 0 && "xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2"
-      }grid-cols-1  mb-b gap-8`}
+      }grid-cols-1  mb-8 gap-8`}
     >
       <div>
         <form onSubmit={handleSubmit}>

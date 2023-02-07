@@ -9,7 +9,6 @@ function Spinner() {
         src={spinner}
         alt="Loading..."
       />
-      ;
     </div>
   );
 }
