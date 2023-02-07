@@ -1,5 +1,4 @@
 // Added useState here
-// This is for a test only
 import { createContext, useReducer, useContext } from "react";
 import githubReducer from "./GithubReducer";
 // Added here
