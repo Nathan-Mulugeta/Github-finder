@@ -16,14 +16,16 @@ export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
     loading: false,
-    noResults: false,
+    // noResults: false,
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
+  console.log("The no results outside of the function: ", state.noResults);
 
   // Get search results
   const searchUsers = async (text) => {
     setLoading();
+    // console.log("The no results inside of the function: ", state.noResults);
 
     const params = new URLSearchParams({
       q: text,
@@ -39,9 +41,9 @@ export const GithubProvider = ({ children }) => {
 
     if (items.length === 0) {
       unsetLoading();
-      setNoResults();
+      // setNoResults();
       setAlert("No Results Found", "info");
-      unsetNoResults();
+      // unsetNoResults();
     } else {
       dispatch({
         type: "GET_USERS",
@@ -61,16 +63,16 @@ export const GithubProvider = ({ children }) => {
     });
   };
 
-  const setNoResults = () => {
-    dispatch({
-      type: "SET_NO_RESULTS",
-    });
-  };
-  const unsetNoResults = () => {
-    dispatch({
-      type: "UNSET_NO_RESULTS",
-    });
-  };
+  // const setNoResults = () => {
+  //   dispatch({
+  //     type: "SET_NO_RESULTS",
+  //   });
+  // };
+  // const unsetNoResults = () => {
+  //   dispatch({
+  //     type: "UNSET_NO_RESULTS",
+  //   });
+  // };
 
   const handleClear = () => {
     dispatch({
@@ -83,11 +85,11 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users,
         loading: state.loading,
-        noResults: state.noResults,
+        // noResults: state.noResults,
         searchUsers,
         handleClear,
-        setNoResults,
-        unsetNoResults,
+        // setNoResults,
+        // unsetNoResults,
       }}
     >
       {children}

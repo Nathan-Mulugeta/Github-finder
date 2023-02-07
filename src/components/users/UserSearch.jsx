@@ -4,8 +4,7 @@ import AlertContext from "../../context/alert/AlertContext";
 
 function UserSearch() {
   const [text, setText] = useState("");
-  const { users, searchUsers, handleClear, unsetNoResults, noResults } =
-    useContext(GithubContext);
+  const { users, searchUsers, handleClear } = useContext(GithubContext);
   const { setAlert } = useContext(AlertContext);
 
   const handleChange = (e) => setText(e.target.value);

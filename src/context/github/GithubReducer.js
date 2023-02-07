@@ -16,16 +16,16 @@ const githubReducer = (state, action) => {
         ...state,
         loading: false,
       };
-    case "SET_NO_RESULTS":
-      return {
-        ...state,
-        noResults: true,
-      };
-    case "UNSET_NO_RESULTS":
-      return {
-        ...state,
-        noResults: false,
-      };
+    // case "SET_NO_RESULTS":
+    //   return {
+    //     ...state,
+    //     noResults: true,
+    //   };
+    // case "UNSET_NO_RESULTS":
+    //   return {
+    //     ...state,
+    //     noResults: false,
+    //   };
     case "CLEAR_USERS":
       return {
         ...state,
