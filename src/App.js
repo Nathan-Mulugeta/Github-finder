@@ -10,8 +10,8 @@ import { AlertProvider } from "./context/alert/AlertContext";
 
 function App() {
   return (
-    <GithubProvider>
-      <AlertProvider>
+    <AlertProvider>
+      <GithubProvider>
         <Router>
           <div className="flex flex-col justify-between h-screen">
             <Navbar />
@@ -26,8 +26,8 @@ function App() {
             <Footer />
           </div>
         </Router>
-      </AlertProvider>
-    </GithubProvider>
+      </GithubProvider>
+    </AlertProvider>
   );
 }
 
