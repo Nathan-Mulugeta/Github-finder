@@ -20,12 +20,10 @@ export const GithubProvider = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
-  console.log("The no results outside of the function: ", state.noResults);
 
   // Get search results
   const searchUsers = async (text) => {
     setLoading();
-    // console.log("The no results inside of the function: ", state.noResults);
 
     const params = new URLSearchParams({
       q: text,
@@ -45,13 +43,16 @@ export const GithubProvider = ({ children }) => {
       setAlert("No Results Found", "info");
       // unsetNoResults();
     } else {
-      dispatch({
-        type: "GET_USERS",
-        payload: items,
-      });
+      getUsers(items);
     }
   };
 
+  const getUsers = (items) => {
+    dispatch({
+      type: "GET_USERS",
+      payload: items,
+    });
+  };
   const setLoading = () =>
     dispatch({
       type: "SET_LOADING",
