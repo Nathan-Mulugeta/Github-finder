@@ -15,8 +15,9 @@ export const GithubProvider = ({ children }) => {
 
   const initialState = {
     users: [],
+    user: {},
     loading: false,
-    // noResults: false,
+    repos: [],
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
@@ -34,7 +35,6 @@ export const GithubProvider = ({ children }) => {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
     });
-
     const { items } = await response.json();
 
     if (items.length === 0) {
@@ -43,16 +43,46 @@ export const GithubProvider = ({ children }) => {
       setAlert("No Results Found", "info");
       // unsetNoResults();
     } else {
-      getUsers(items);
+      dispatch({
+        type: "GET_USERS",
+        payload: items,
+      });
     }
   };
 
-  const getUsers = (items) => {
-    dispatch({
-      type: "GET_USERS",
-      payload: items,
+  // Get user
+  const getUser = async (login) => {
+    setLoading();
+
+    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
     });
+
+    const reposResponse = await fetch(`${GITHUB_URL}/users/${login}/repos`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    });
+
+    if (response.status === 404) {
+      window.location = "/notfound";
+    } else {
+      const data = await response.json();
+      const repos = await reposResponse.json();
+
+      dispatch({
+        type: "GET_USER",
+        payload: data,
+      });
+      dispatch({
+        type: "GET_REPOS",
+        payload: repos,
+      });
+    }
   };
+
   const setLoading = () =>
     dispatch({
       type: "SET_LOADING",
@@ -63,17 +93,6 @@ export const GithubProvider = ({ children }) => {
       type: "UNSET_LOADING",
     });
   };
-
-  // const setNoResults = () => {
-  //   dispatch({
-  //     type: "SET_NO_RESULTS",
-  //   });
-  // };
-  // const unsetNoResults = () => {
-  //   dispatch({
-  //     type: "UNSET_NO_RESULTS",
-  //   });
-  // };
 
   const handleClear = () => {
     dispatch({
@@ -86,11 +105,11 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users,
         loading: state.loading,
-        // noResults: state.noResults,
+        user: state.user,
+        repos: state.repos,
         searchUsers,
         handleClear,
-        // setNoResults,
-        // unsetNoResults,
+        getUser,
       }}
     >
       {children}
