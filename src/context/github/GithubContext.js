@@ -1,8 +1,7 @@
 // Added useState here
-import { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer } from "react";
 import githubReducer from "./GithubReducer";
 // Added here
-import AlertContext from "../../context/alert/AlertContext";
 
 const GithubContext = createContext();
 
@@ -11,44 +10,16 @@ const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 export const GithubProvider = ({ children }) => {
   // Added here
-  const { setAlert } = useContext(AlertContext);
 
   const initialState = {
     users: [],
     user: {},
     loading: false,
     repos: [],
+    noUsers: false,
   };
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
-
-  // Get search results
-  const searchUsers = async (text) => {
-    setLoading();
-
-    const params = new URLSearchParams({
-      q: text,
-    });
-
-    const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
-    });
-    const { items } = await response.json();
-
-    if (items.length === 0) {
-      unsetLoading();
-      // setNoResults();
-      setAlert("No Results Found", "info");
-      // unsetNoResults();
-    } else {
-      dispatch({
-        type: "GET_USERS",
-        payload: items,
-      });
-    }
-  };
 
   // Get user
   const getUser = async (login) => {
@@ -88,12 +59,6 @@ export const GithubProvider = ({ children }) => {
       type: "SET_LOADING",
     });
 
-  const unsetLoading = () => {
-    dispatch({
-      type: "UNSET_LOADING",
-    });
-  };
-
   const handleClear = () => {
     dispatch({
       type: "CLEAR_USERS",
@@ -105,7 +70,6 @@ export const GithubProvider = ({ children }) => {
       value={{
         ...state,
         dispatch,
-        searchUsers,
         handleClear,
         getUser,
       }}

@@ -5,6 +5,7 @@ const githubReducer = (state, action) => {
         ...state,
         users: action.payload,
         loading: false,
+        noUsers: false,
       };
     case "SET_LOADING":
       return {
@@ -16,16 +17,7 @@ const githubReducer = (state, action) => {
         ...state,
         loading: false,
       };
-    // case "SET_NO_RESULTS":
-    //   return {
-    //     ...state,
-    //     noResults: true,
-    //   };
-    // case "UNSET_NO_RESULTS":
-    //   return {
-    //     ...state,
-    //     noResults: false,
-    //   };
+
     case "CLEAR_USERS":
       return {
         ...state,
@@ -44,7 +36,16 @@ const githubReducer = (state, action) => {
         ...state,
         repos: action.payload,
       };
-
+    case "noUsers":
+      return {
+        ...state,
+        noUsers: true,
+      };
+    case "noUsersFalse":
+      return {
+        ...state,
+        noUsers: false,
+      };
     default:
       return state;
   }
