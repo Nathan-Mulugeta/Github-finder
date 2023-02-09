@@ -5,9 +5,6 @@ import githubReducer from "./GithubReducer";
 
 const GithubContext = createContext();
 
-const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
-const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
-
 export const GithubProvider = ({ children }) => {
   // Added here
 
@@ -21,57 +18,11 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  // Get user
-  const getUser = async (login) => {
-    setLoading();
-
-    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
-    });
-
-    const reposResponse = await fetch(`${GITHUB_URL}/users/${login}/repos`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
-    });
-
-    if (response.status === 404) {
-      window.location = "/notfound";
-    } else {
-      const data = await response.json();
-      const repos = await reposResponse.json();
-
-      dispatch({
-        type: "GET_USER",
-        payload: data,
-      });
-      dispatch({
-        type: "GET_REPOS",
-        payload: repos,
-      });
-    }
-  };
-
-  const setLoading = () =>
-    dispatch({
-      type: "SET_LOADING",
-    });
-
-  const handleClear = () => {
-    dispatch({
-      type: "CLEAR_USERS",
-    });
-  };
-
   return (
     <GithubContext.Provider
       value={{
         ...state,
         dispatch,
-        handleClear,
-        getUser,
       }}
     >
       {children}
