@@ -154,7 +154,7 @@ function User() {
             </div>
           </div>
           <div className="stat">
-            <div className="state-figure  text-secondary">
+            <div className="state-figure text-secondary">
               <FaStore className="text-3xl md:text-5xl" />
             </div>
             <div className="stat-title pr-5">Public Gists</div>
