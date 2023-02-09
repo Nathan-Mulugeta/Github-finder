@@ -16,14 +16,10 @@ function User() {
       type: "SET_LOADING",
     });
     const getUserData = async () => {
-      const [data, repos] = await getUser(params.login);
+      const userData = await getUser(params.login);
       dispatch({
-        type: "GET_USER",
-        payload: data,
-      });
-      dispatch({
-        type: "GET_REPOS",
-        payload: repos,
+        type: "GET_USER_AND_REPOS",
+        payload: userData,
       });
     };
 
